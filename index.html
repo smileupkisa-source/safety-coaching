@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="theme-color" content="#10354c">
+<title>나의 안전소통 성향 확인하기 | 나의 안전코칭 사용설명서</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--navy:#123a50;--dark:#0b2c40;--teal:#007f79;--teal2:#0d9488;--mint:#b0f1c8;--paper:#f4f8fa;--line:#dce8eb;--muted:#647f8c;--ink:#17384b;--amber:#e89b43;--shadow:0 16px 40px rgba(15,50,75,.065);
+--cD:#d9644a;--cI:#e39a2f;--cS:#23998b;--cC:#3a6db5;--danger:#c8463a}
+*{box-sizing:border-box}html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;color:var(--ink);background:var(--paper);font-family:Pretendard,system-ui,-apple-system,"Apple SD Gothic Neo","Noto Sans KR","Segoe UI",sans-serif;line-height:1.65;font-size:14px;word-break:keep-all}
+button,input,select{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}button:disabled{opacity:.42;cursor:not-allowed}
+a{color:#047985}:focus-visible{outline:3px solid #46c2bb!important;outline-offset:2px}.hide{display:none!important}
+body.intro-open{overflow:hidden}
+
+/* ===== Intro splash ===== */
+.intro-splash{position:fixed;inset:0;z-index:900;overflow-y:auto;overscroll-behavior:contain;background:#091f2a;color:#fff;transition:opacity .6s ease,visibility .6s ease}
+.intro-splash.closed{opacity:0;visibility:hidden;pointer-events:none}
+.intro-video-wrap{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:#0b2c38}
+.intro-video-fallback{position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,54,70,.25),rgba(4,30,48,.60)),url("wave-poster.jpg") center/cover no-repeat}
+.intro-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.15) contrast(1.05);transform:scale(1.01)}
+.intro-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,20,33,.40),rgba(4,24,36,.50) 55%,rgba(4,24,37,.64))}
+.intro-corner{position:absolute;z-index:1;pointer-events:none;width:96px;height:96px;opacity:.55}
+.intro-corner.lt{left:clamp(14px,5vw,80px);top:clamp(13px,4vw,46px);border-top:3px solid #8ccf92;border-left:3px solid #8ccf92}
+.intro-corner.rb{right:clamp(14px,5vw,80px);bottom:clamp(13px,4vw,46px);border-right:3px solid #8ccf92;border-bottom:3px solid #8ccf92}
+.intro-inner{position:relative;z-index:2;width:min(100% - 26px,1040px);min-height:100%;margin:0 auto;display:flex;flex-direction:column;padding:90px 16px 26px}
+.intro-main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 0 34px}
+.intro-main h1{margin:0;font-weight:900;font-size:clamp(32px,6.4vw,62px);line-height:1.18;letter-spacing:-.06em;text-shadow:0 3px 12px rgba(0,15,22,.8),0 1px 3px rgba(0,0,0,.7);animation:fade .9s .1s both}
+.intro-main h1 span{color:var(--mint)}
+.intro-main h1 small{display:block;margin-top:14px;font-size:clamp(15px,2vw,21px);font-weight:600;letter-spacing:-.02em;color:#e2f4f4}
+.intro-rule{height:4px;width:88px;border-radius:10px;background:linear-gradient(90deg,#b3e79e,#30c6b9);margin:20px 0 22px;animation:grow .9s .3s both}
+.intro-sub{margin:0;font-size:clamp(13px,1.7vw,17px);line-height:1.9;color:#e1eef0;text-shadow:0 3px 12px rgba(0,15,22,.8);animation:fade .8s .25s both}
+.intro-sub strong{color:#b1ecc1}
+.intro-meta{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:18px;animation:fade .8s .35s both}
+.intro-meta span{font-size:12px;font-weight:800;padding:6px 12px;border-radius:999px;background:#ffffff1c;border:1px solid #ffffff40}
+.intro-enter{margin-top:34px;width:128px;height:128px;border-radius:50%;border:2px solid #ffffffd9;background:#ffffff14;color:#fff;font-size:24px;font-weight:900;letter-spacing:-.02em;backdrop-filter:blur(3px);box-shadow:0 0 0 10px #ffffff0d;transition:transform .3s,background .3s;animation:fade .85s .45s both}
+.intro-enter:hover{background:#ffffff2a;transform:scale(1.04)}.intro-enter:active{transform:scale(.96)}
+.intro-reference{width:min(820px,100%);margin:0 auto;background:#061e314f;border:1px solid #ffffff21;backdrop-filter:blur(12px);border-radius:17px;overflow:hidden}
+.intro-ref-toggle{list-style:none;display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 18px;font-size:12px;font-weight:800;letter-spacing:.06em;color:#d8ecec;cursor:pointer;background:#ffffff08}
+.intro-ref-toggle::-webkit-details-marker{display:none}.intro-ref-toggle::after{content:'+';font-size:17px;line-height:1;color:#b3f5cb}
+details[open] .intro-ref-toggle::after{content:'−'}
+.ref-body{padding:12px 22px 14px}.ref-body ol{padding-left:20px;margin:0 0 10px;color:#d9e9eb;display:grid;gap:6px}.ref-body li{font-size:11px;line-height:1.55}
+.ref-body a{color:#dceef1}.ref-body p{border-top:1px solid #ffffff1c;margin:9px 0 0;padding-top:9px;font-size:10.5px;color:#b7cdd5;line-height:1.65}.ref-body p b{color:#e2e9c4}
+.intro-legal{margin:14px auto 0;text-align:center;font-size:10.5px;line-height:1.7;color:#d5e6ea}.intro-legal a{color:#e6f6f6}
+@keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}@keyframes grow{from{width:0}to{width:88px}}
+
+/* ===== Survey shell ===== */
+.shell{max-width:1160px;margin:0 auto;padding:0 24px}
+.hero{color:#fff;padding:22px 0 70px;position:relative;overflow:hidden;background:#10354c}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(90deg,rgba(9,34,48,.74),rgba(10,44,58,.6) 48%,rgba(14,67,74,.52)),url("wave-poster.jpg") center/cover no-repeat}
+.hero .shell{position:relative;z-index:2}
+.brand{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.tag{background:#ffffff1d;color:#fff;padding:7px 12px;border:1px solid #ffffff3f;border-radius:999px;font-size:11px;font-weight:800}
+.hero-head{padding:30px 0 0;max-width:780px}.hero h1{margin:0 0 8px;font-size:clamp(25px,3.8vw,40px);line-height:1.25;letter-spacing:-.05em}.hero p{margin:0;color:#d5e9e9;font-size:13.5px}
+.workspace.solo{grid-template-columns:minmax(0,1fr);max-width:900px}
+.workspace{display:grid;grid-template-columns:260px minmax(0,1fr);gap:18px;align-items:start;margin-top:-40px;padding-bottom:40px;position:relative;z-index:2}
+.panel{border:1px solid #e2edef;border-radius:20px;background:#fff;box-shadow:var(--shadow)}
+.side{padding:20px;position:sticky;top:16px}
+.side-title{margin:0;font-size:14px}.side-head{display:flex;justify-content:space-between;align-items:center}.side-head strong{font-size:20px;color:var(--teal)}
+.progress{height:8px;background:#e6eff1;border-radius:9px;overflow:hidden;margin:12px 0 8px}.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#3cc2a8,var(--teal));border-radius:9px;transition:width .35s}
+.side-foot{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted)}.side-foot b{color:var(--ink)}
+.area-list{list-style:none;margin:16px 0 0;padding:14px 0 0;border-top:1px dashed var(--line);display:grid;gap:8px}
+.area-list li{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;color:var(--muted)}.area-list li b{color:var(--ink);font-weight:700}.area-list li.done span{color:var(--teal);font-weight:800}
+.main{padding:28px 30px 30px;min-width:0}
+.kicker{color:var(--teal);font-size:11px;font-weight:900;letter-spacing:.14em;text-transform:uppercase}
+.leadrow{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.leadrow h2{margin:4px 0 6px;font-size:clamp(21px,2.6vw,27px);letter-spacing:-.04em;line-height:1.3}
+.sub{color:var(--muted);font-size:13.5px}.sub strong{color:var(--ink)}
+.ver{color:#6a9796;font:700 10px/1.3 system-ui;white-space:nowrap}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:22px 0 16px}
+.field label{display:block;font-size:12.5px;font-weight:800;margin-bottom:6px}.field label em{color:var(--danger);font-style:normal}
+.field select{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);appearance:none;background-image:linear-gradient(45deg,transparent 50%,#5b7b88 50%),linear-gradient(135deg,#5b7b88 50%,transparent 50%);background-position:calc(100% - 18px) 52%,calc(100% - 13px) 52%;background-size:5px 5px;background-repeat:no-repeat}
+.field select:focus{border-color:#36b5a6;box-shadow:0 0 0 4px #36b5a626;outline:none}.field.missing select{border-color:var(--danger)}
+.notice{background:#eef8f4;border:1px solid #cdeee0;color:#2b5a52;border-radius:12px;padding:11px 14px;font-size:12.5px;margin-bottom:18px}
+.area-head{display:flex;align-items:center;gap:12px;margin:26px 0 12px}.area-head .num{flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--navy);color:#fff;font-weight:900}
+.area-head h3{margin:0;font-size:16px;letter-spacing:-.03em}.area-head p{margin:0;font-size:12px;color:var(--muted)}
+.qcard{border:1.5px solid #e2ecee;border-radius:18px;padding:18px 18px 16px;margin-bottom:14px;background:#fff;transition:border-color .25s,box-shadow .25s,opacity .25s;scroll-margin-top:90px}
+.qcard.current{border-color:#3fb7a6;box-shadow:0 10px 26px rgba(0,127,121,.10)}.qcard.answered:not(.current){opacity:.78}
+.qhead{display:flex;gap:10px;align-items:baseline}.qno{flex:none;color:var(--teal);font-weight:900;font-size:15px}.qno small{color:#9bb3bb;font-weight:700;font-size:11px}
+.qtext{margin:0;font-size:16px;font-weight:800;line-height:1.5;letter-spacing:-.03em}
+.qhelp{margin:4px 0 0 0;color:var(--muted);font-size:12.5px;padding-left:44px}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}
+.choice{position:relative}.choice input{position:absolute;opacity:0;pointer-events:none}
+.choice label{display:flex;gap:10px;align-items:flex-start;min-height:58px;height:100%;padding:12px 14px;border:1.5px solid #e1eaed;border-radius:13px;background:#f8fbfc;font-size:13.5px;line-height:1.5;color:#2f4b59;cursor:pointer;transition:border-color .2s,background .2s,transform .15s}
+.choice label:hover{border-color:#9fd8cf}
+.choice label .dot{flex:none;width:20px;height:20px;margin-top:1px;border-radius:50%;border:2px solid #b9cdd3;display:grid;place-items:center;background:#fff}
+.choice input:checked+label{border-color:var(--teal);background:#e3f6ef;color:#0d3f3a;font-weight:700}
+.choice input:checked+label .dot{border-color:var(--teal);background:var(--teal)}.choice input:checked+label .dot::after{content:"";width:7px;height:7px;border-radius:50%;background:#fff}
+.choice input:focus-visible+label{outline:3px solid #46c2bb;outline-offset:2px}
+.submit-row{display:flex;justify-content:flex-end;margin-top:22px}
+.btn{white-space:nowrap;border:1.5px solid #cfdfe3;background:#fff;color:var(--ink);border-radius:13px;padding:13px 20px;font-weight:800;font-size:14px}
+.btn.pri{background:var(--teal);border-color:var(--teal);color:#fff;box-shadow:0 10px 24px rgba(0,127,121,.22)}
+.btn.dark{background:var(--dark);border-color:var(--dark);color:#fff}
+.foot-note{max-width:1160px;margin:0 auto;padding:0 24px 40px;font-size:11.5px;color:var(--muted)}
+.sticky{position:fixed;left:0;right:0;top:0;z-index:50;background:#ffffffef;backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:9px 16px 10px;transform:translateY(-110%);transition:transform .3s}
+.sticky.show{transform:none}.sticky .cap{display:flex;justify-content:space-between;font-size:12px}.sticky .cap b{color:var(--teal)}.sticky .progress{margin:6px 0 0;height:6px}
+
+/* ===== Report ===== */
+.report-page{border:1px solid #e2edef;border-top:6px solid var(--teal);border-radius:22px;background:#fff;box-shadow:var(--shadow);padding:30px 30px 18px;margin-bottom:22px}
+.report-page h2{margin:6px 0 14px;font-size:clamp(26px,3.6vw,36px);line-height:1.22;letter-spacing:-.055em}.report-page h2 em{font-style:normal;color:var(--teal)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}.chips span{font-size:12px;padding:6px 13px;border-radius:999px;background:#f1f6f7;border:1px solid var(--line);color:#3c5a67}
+.manual{border-radius:20px;padding:24px;background:linear-gradient(150deg,#f3fbf8,#eef6fa);border:1px solid #d7ebe6}
+.manual-top{display:flex;gap:18px;align-items:center}
+.emblem{flex:none;width:92px;height:92px;border-radius:26px;display:grid;place-items:center;color:#fff;box-shadow:0 12px 26px rgba(0,0,0,.12)}
+.emblem svg{width:48px;height:48px}
+.manual-top .label{font-size:12px;font-weight:800;color:var(--muted);letter-spacing:.04em}
+.manual-top .tname{font-size:32px;font-weight:900;letter-spacing:-.05em;line-height:1.2}
+.manual-top .tline{font-size:14px;color:#3d5966;margin-top:2px}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+.mbox{background:#fff;border:1px solid #dfeceb;border-radius:16px;padding:16px 16px 12px}
+.mbox h4{margin:0 0 8px;font-size:13.5px;display:flex;gap:8px;align-items:center}.mbox h4 i{width:22px;height:22px;border-radius:7px;display:grid;place-items:center;font-style:normal;font-size:12px;color:#fff}
+.mbox ul{margin:0;padding-left:18px}.mbox li{font-size:13.5px;line-height:1.6;margin-bottom:6px}
+.mbox.ok h4 i{background:var(--teal)}.mbox.no h4 i{background:var(--danger)}.mbox.no{background:#fffafa;border-color:#f1dfdd}
+.mbox.wide{grid-column:1/-1}
+.from-ans{display:inline-block;font-size:10.5px;font-weight:800;color:var(--teal);background:#e3f6ef;border-radius:6px;padding:1px 6px;margin-left:4px;vertical-align:1px}
+.stats3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+.stat{border:1px solid var(--line);border-radius:15px;padding:13px 14px;background:#fff}.stat small{display:block;font-size:11.5px;color:var(--muted)}.stat b{font-size:19px;letter-spacing:-.03em}
+.rfoot{display:flex;justify-content:space-between;gap:10px;margin-top:22px;padding-top:12px;border-top:1px solid #edf2f3;font-size:10.5px;font-weight:700;color:#8aa2aa;letter-spacing:.04em}
+.matrix{width:100%;table-layout:fixed;border-collapse:separate;border-spacing:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;font-size:13px}
+.matrix th,.matrix td{padding:11px 8px;text-align:center;border-bottom:1px solid #eef3f4}.matrix tr:last-child td{border-bottom:0}
+.matrix thead th{background:#f4f9fa;font-size:12px}.matrix tbody th{text-align:left;padding-left:14px;font-weight:700;background:#fbfdfd;width:32%}
+.dots{display:inline-flex;gap:3px}.dots i{width:9px;height:9px;border-radius:50%;background:#e3ebee}
+.matrix td.top{background:#f2fbf8}
+.bars{display:grid;gap:12px;margin-top:6px}
+.bar{display:grid;grid-template-columns:70px 1fr 72px;gap:12px;align-items:center;font-size:13.5px;font-weight:700}
+.bar .track{height:13px;border-radius:9px;background:#edf2f3;overflow:hidden}.bar .track i{display:block;height:100%;border-radius:9px}
+.bar .val{text-align:right;font-size:13px;color:var(--muted)}.bar .val b{font-size:17px;color:var(--ink)}
+.box{border-radius:16px;padding:16px 18px;margin-top:18px}.box h4{margin:0 0 6px;font-size:14px}.box p{margin:0 0 6px;font-size:13px;line-height:1.75}
+.box.read{background:#f0f8f5;border:1px solid #d6ece4}.box.warn{background:#fff4f2;border:1px solid #f3d3cd}.box.warn h4{color:var(--danger)}
+.box.src{background:#f6f8f9;border:1px solid #e3e9eb;font-size:11.5px;color:#5d7480}.box.src p{font-size:11.5px}
+.sec-title{display:flex;justify-content:space-between;align-items:baseline;margin:26px 0 12px}.sec-title h3{margin:0;font-size:17px;letter-spacing:-.03em}.sec-title span{font-size:11.5px;color:var(--muted)}
+.self{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.self div{border-radius:15px;padding:14px;border:1px solid var(--line);background:#fbfdfd}.self small{display:block;font-size:11.5px;font-weight:800;color:var(--teal);margin-bottom:4px}.self p{margin:0;font-size:13.5px;line-height:1.6}
+.scene{background:#10354c;color:#e8f3f3;border-radius:15px;padding:14px 16px;font-size:13px;margin-bottom:12px}.scene b{color:var(--mint)}
+.tcards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tcard{border:1px solid var(--line);border-radius:16px;padding:16px;background:#fff;position:relative;overflow:hidden}
+.tcard .tt{display:flex;gap:8px;align-items:center;font-weight:900;font-size:15px}.tcard .tt i{width:12px;height:12px;border-radius:4px}
+.tcard .flow{font-size:12px;color:var(--muted);margin:6px 0 8px}
+.tcard blockquote{margin:0;padding:10px 12px;border-radius:11px;background:#f4f8f9;font-size:13.5px;line-height:1.6}
+.tcard.mine{border-color:#9fd8cf;background:#fbfffd}.tcard .me{position:absolute;right:12px;top:12px;font-size:10.5px;font-weight:800;color:var(--teal);background:#e3f6ef;border-radius:6px;padding:2px 7px}
+.allans{margin-bottom:22px}.allans summary{list-style:none;cursor:pointer;padding:18px 22px;font-weight:900;font-size:16px;color:var(--teal)}.allans summary::-webkit-details-marker{display:none}
+.allans .inner{padding:0 22px 18px}.arow{display:grid;grid-template-columns:42px 1fr auto;gap:10px;padding:10px 0;border-top:1px solid #eef3f4;font-size:13px}.arow b{color:var(--teal)}.arow span.k{font-size:11.5px;font-weight:800;border-radius:7px;padding:2px 8px;color:#fff;height:fit-content}
+.actionbar{padding:20px 22px}.actionbar h3{margin:0;font-size:17px}.actionbar p{margin:2px 0 14px;font-size:12.5px;color:var(--muted)}
+.abtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}.abtns .full{grid-column:1/-1}
+.status{font-size:12px;color:var(--muted);margin-top:10px;min-height:18px}
+/* stats view */
+.stats-wrap{max-width:980px;margin:0 auto;padding:28px 20px 50px}
+.stats-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-end;flex-wrap:wrap;margin-bottom:16px}
+.bign{font-size:46px;font-weight:900;color:var(--teal);letter-spacing:-.04em;line-height:1}
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.sgrid .panel{padding:18px}
+.sgrid h3{margin:0 0 12px;font-size:15px}
+
+@media (max-width:860px){
+ .shell{padding:0 14px}.workspace{grid-template-columns:1fr;margin-top:-44px;gap:12px}.side{position:static;padding:16px 18px}.area-list{display:none}
+ .main{padding:22px 16px 20px}.meta{grid-template-columns:1fr}.choices{grid-template-columns:1fr}.qhelp{padding-left:0}
+ .report-page{padding:24px 18px 14px}.mgrid,.tcards,.self,.stats3,.sgrid{grid-template-columns:1fr}.manual{padding:18px}.emblem{width:72px;height:72px;border-radius:20px}.emblem svg{width:38px;height:38px}.manual-top .tname{font-size:27px}
+ .stats3{grid-template-columns:repeat(3,1fr)}.stat{padding:10px}.stat b{font-size:15px}.stat small{font-size:10.5px}
+ .bar{grid-template-columns:56px 1fr 62px;gap:8px}
+ .matrix th,.matrix td{padding:10px 2px}.matrix tbody th{padding-left:10px;width:30%;font-size:12px}.matrix thead th{font-size:11px}.dots{gap:2px}.dots i{width:8px;height:8px}
+ .intro-sub br:not(.keep){display:none}.abtns .btn{padding:13px 10px;font-size:13.5px}
+ .intro-inner{padding-top:70px}.intro-enter{width:112px;height:112px;font-size:22px}
+ .foot-note{padding:0 14px 30px}
+}
+@media print{.noprint,.intro-splash,.sticky,.hero,.side,.actionbar,.allans{display:none!important}body{background:#fff}.workspace{display:block;margin:0}.main{border:0;box-shadow:none;padding:0}.report-page{break-after:page;box-shadow:none}}
+</style></head>
+<body class="intro-open">
+
+<div id="introSplash" class="intro-splash" role="dialog" aria-modal="true" aria-labelledby="introTitle">
+ <div class="intro-video-wrap" aria-hidden="true">
+  <div class="intro-video-fallback"></div>
+  <video id="introVideo" class="intro-video" autoplay muted loop playsinline preload="auto" poster="wave-poster.jpg"><source src="wave.mp4" type="video/mp4"></video>
+  <div class="intro-overlay"></div>
+ </div>
+ <div class="intro-corner lt" aria-hidden="true"></div><div class="intro-corner rb" aria-hidden="true"></div>
+ <div class="intro-inner">
+  <div class="intro-main">
+   <h1 id="introTitle">나의 <span>안전소통 성향</span><small>확인하기 · 나의 안전코칭 사용설명서</small></h1>
+   <div class="intro-rule" aria-hidden="true"></div>
+   <p class="intro-sub">같은 말도, <strong>들리는 방식</strong>은 사람마다 다릅니다.<br class="keep">12개의 질문으로 나는 어떻게 말하고, 어떻게 들을 때 받아들이는 사람인지<br>확인해 보세요.</p>
+   <div class="intro-meta"><span>12문항</span><span>약 5분</span><span>결과는 본인만 확인</span></div>
+   <button type="button" id="enterSurvey" class="intro-enter" aria-label="설문 시작">시작</button>
+  </div>
+  <div class="intro-reference"><details>
+   <summary class="intro-ref-toggle">참고 문헌 · 사용 안내</summary>
+   <div class="ref-body">
+    <ol>
+     <li>Leary, T. (1957). <em>Interpersonal Diagnosis of Personality</em>. Ronald Press.</li>
+     <li>Wiggins, J. S. (1979). A psychological taxonomy of trait-descriptive terms: The interpersonal domain. <em>Journal of Personality and Social Psychology, 37</em>(3), 395–412.</li>
+     <li>Hersey, P., &amp; Blanchard, K. H. (1969). Life cycle theory of leadership. <em>Training and Development Journal, 23</em>(5), 26–34.</li>
+     <li>Brehm, J. W. (1966). <em>A Theory of Psychological Reactance</em>. Academic Press.</li>
+     <li>Edmondson, A. (1999). Psychological safety and learning behavior in work teams. <em>Administrative Science Quarterly, 44</em>(2), 350–383.</li>
+    </ol>
+    <p><b>안내</b> · 안전코칭 교육을 위한 <b>자기성찰용 탐색 도구(시범판)</b>입니다. 표준화된 심리검사가 아니며 신뢰도·타당도 검증 전입니다. 결과는 성격을 판정하지 않으며, 현재 응답에서 나타난 상대적인 소통 선호를 보여 줍니다. 개인 결과는 본인 화면에만 표시되고, 교육 집계에는 이름 없이 성향 분포만 사용됩니다.</p>
+   </div>
+  </details></div>
+  <div class="intro-legal" role="note"><strong>사용 안내</strong> · 본 프로그램의 무단 복제·배포·수정 및 상업적 이용을 금지합니다.<br>사용 문의: <a href="mailto:kisa2007@kakao.com">kisa2007@kakao.com</a><br>© 2026 kisa2007@kakao.com. All rights reserved.</div>
+ </div>
+</div>
+
+<div id="sticky" class="sticky noprint" aria-hidden="true"><div class="cap"><strong>설문 진행 현황</strong><span><span id="stCount">0 / 12문항</span> &nbsp;<b id="stPct">0%</b></span></div><div class="progress"><i id="stBar"></i></div></div>
+
+<div id="app">
+<header class="hero noprint"><div class="hero-bg" aria-hidden="true"></div><div class="shell">
+ <div class="brand"><button class="tag" type="button" id="showIntro">⌂ 처음 화면</button><span class="tag" id="classTag" hidden></span></div>
+ <div class="hero-head"><h1>나의 안전소통 성향 확인하기</h1><p>나는 어떻게 말하고, 어떻게 들을 때 받아들이는가 · 12문항 · 3개 영역</p></div>
+</div></header>
+
+<div class="shell workspace">
+ <aside id="side" class="panel side noprint" aria-label="설문 진행 현황">
+  <div class="side-head"><h3 class="side-title">설문 진행 현황</h3><strong id="pct">0%</strong></div>
+  <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="12" aria-valuenow="0" id="pbar"><i id="bar"></i></div>
+  <div class="side-foot"><b id="count">0 / 12문항</b><span>선택하면 다음 문항으로 이동</span></div>
+  <ul class="area-list" id="areaList"></ul>
+ </aside>
+
+ <main class="panel main" id="main" aria-live="polite">
+  <section id="survey">
+   <div class="leadrow"><div>
+    <div class="kicker">Safety Communication · 12 Questions</div>
+    <h2>나의 안전소통 성향을 알아보는 12문항</h2>
+    <div class="sub">정답은 없습니다. 평소 현장에서의 나와 <strong>가장 가까운 것 하나</strong>를 골라 주세요.</div>
+   </div><span class="ver">v1.0</span></div>
+   <div class="meta">
+    <div class="field" id="fRole"><label for="role">응답자 구분 <em>*</em></label><select id="role"><option value="">선택해 주세요</option><option>경영자·관리자</option><option>관리감독자</option><option>근로자</option><option>안전보건 담당자</option><option>기타</option></select></div>
+    <div class="field" id="fCareer"><label for="career">현장 경력 <em>*</em></label><select id="career"><option value="">선택해 주세요</option><option>1년 미만</option><option>1~3년</option><option>3~10년</option><option>10년 이상</option></select></div>
+   </div>
+   <div class="notice">한 문항을 선택하면 다음 문항으로 자동 이동합니다. 지나간 답변도 언제든 바꿀 수 있습니다.</div>
+   <div id="questions"></div>
+   <div class="submit-row"><button class="btn pri" id="next" disabled>응답 완료 후 결과 확인 (0/12)</button></div>
+  </section>
+
+  <section id="result" class="hide"></section>
+ </main>
+</div>
+<p class="foot-note noprint" id="footNote">v1.0 · 본 도구는 안전코칭 교육용 자기성찰 도구이며 심리검사·인사평가에 이용할 수 없습니다. 즉각적인 위험 앞에서는 성향과 관계없이 작업을 먼저 멈추게 해야 합니다.</p>
+</div>
+
+<div id="statsView" class="hide"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+/* ================= DATA ================= */
+const TYPES={
+ D:{name:'결론형',color:'#d9644a',line:'핵심이 분명하면 바로 움직이는 사람',
+   icon:'<svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="17"/><circle cx="24" cy="24" r="9"/><circle cx="24" cy="24" r="2" fill="#fff"/></svg>',
+   hear:['결론과 핵심을 먼저, 한두 문장으로 말해 주세요','무엇을 언제까지 하면 되는지 분명히 알려 주세요','방법을 정할 때 제 판단도 물어봐 주세요'],
+   close:['요점 없이 길게 돌려 말하는 것','같은 이야기를 여러 번 반복하는 잔소리'],
+   praise:'짧고 분명한 인정 한마디',
+   speak:{strength:'빠르고 분명해서 위험 앞에서 개입이 늦지 않습니다.',watch:'공감형·단계형 동료에게는 압박이나 질책으로 들릴 수 있습니다.',try:'지적한 뒤 한 템포 쉬고 “어떻게 생각해요?” 질문을 하나 붙여 보세요.'},
+   flow:'결론 → 이유 하나 → 의견 묻기',
+   say:'“턱끈 하나만 채웁시다. 넘어지면 모자부터 벗겨져요. 불편한 데 있으면 말해 줘요.”'},
+ I:{name:'공감형',color:'#e39a2f',line:'관계와 인정 속에서 마음이 열리는 사람',
+   icon:'<svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="17" cy="17" r="6"/><circle cx="31" cy="17" r="6"/><path d="M7 38c1.5-7 6-10 10-10s8.5 3 10 10M21 38c1.5-7 6-10 10-10s8.5 3 10 10"/></svg>',
+   hear:['먼저 수고를 알아봐 주고 이야기를 꺼내 주세요','“우리”, “같이”라는 말로 함께 방법을 찾아 주세요','지적은 따로, 칭찬은 함께 있을 때 해 주세요'],
+   close:['여러 사람 앞에서 딱딱하게 지적받는 것','사무적이고 차가운 말투'],
+   praise:'동료들 앞에서 함께 기뻐해 주는 인정',
+   speak:{strength:'분위기를 살리고 동료가 쉽게 말을 꺼내게 합니다.',watch:'분위기를 지키느라 꼭 지켜야 할 기준이 흐려질 수 있습니다.',try:'대화를 마치기 전에 “이것 하나는 꼭 지켜요”라고 기준을 분명히 말해 보세요.'},
+   flow:'수고 인정 → 걱정 표현 → 함께 방법 찾기',
+   say:'“오늘 더운데 고생 많아요. 다치면 안 되니까 턱끈만 같이 챙겨요. 우리 팀 다 같이요.”'},
+ S:{name:'단계형',color:'#23998b',line:'차분하게 순서대로 들을 때 받아들이는 사람',
+   icon:'<svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 38h10V28h10V18h12"/><path d="M34 12l6 6-6 6"/></svg>',
+   hear:['차분한 목소리로, 다른 사람이 없는 곳에서 말해 주세요','바뀌는 내용은 미리, 순서대로 알려 주세요','바로 답하기보다 생각할 시간을 조금 주세요'],
+   close:['갑자기 큰 소리로 다그치는 것','그 자리에서 바로 답하라고 재촉하는 것'],
+   praise:'따로 조용히 건네는 진심 어린 고마움',
+   speak:{strength:'신중하고 꾸준해서 동료가 편안하게 이야기합니다.',watch:'상대를 배려하다 위험 앞에서 개입이 늦어질 수 있습니다.',try:'위험이 보이면 먼저 멈추게 하고, 차분한 대화는 그다음에 이어 가세요.'},
+   flow:'조용히 다가가기 → 방법 보여 주기 → 다음에 다시 확인',
+   say:'(조용히 다가가서) “잠깐 괜찮아요? 턱끈을 이렇게 채우면 덜 불편해요. 한번 같이 해 볼까요?”'},
+ C:{name:'근거형',color:'#3a6db5',line:'기준과 이유가 있으면 움직이는 사람',
+   icon:'<svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><rect x="10" y="8" width="28" height="33" rx="4"/><path d="M17 18h14M17 25h14M17 32h8"/></svg>',
+   hear:['왜 해야 하는지 이유와 기준을 함께 알려 주세요','사실과 사례, 데이터로 정확하게 말해 주세요','궁금한 점을 물어볼 기회를 주세요'],
+   close:['이유 없이 “그냥 하라”고 하는 것','과장하거나 감정적으로 몰아붙이는 것'],
+   praise:'무엇을 잘했는지 구체적으로 짚어 주는 인정',
+   speak:{strength:'정확하고 일관된 기준으로 신뢰를 얻습니다.',watch:'설명이 길고 딱딱하게 들려 핵심이 묻힐 수 있습니다.',try:'결론부터 말하고 근거는 한두 가지만 골라 전해 보세요.'},
+   flow:'사실 → 기준 → 의견 묻기',
+   say:'“지난달 낙하물 사고 때 턱끈이 풀려 안전모가 벗겨졌어요. 기준상 필수라 채워 주세요. 혹시 불편한 이유가 있나요?”'}
+};
+const ORDER=['D','I','S','C'];
+const AREAS=[
+ {id:1,title:'나는 이렇게 말한다',desc:'평소 현장에서 안전에 대해 이야기하는 나의 모습'},
+ {id:2,title:'나는 이렇게 들을 때 받아들인다',desc:'누군가 나에게 안전을 이야기할 때 마음이 열리는 방식'},
+ {id:3,title:'바쁘고 압박받을 때 나는',desc:'공정이 밀리거나 의견이 엇갈리는 상황에서의 나'}
+];
+const Q=[
+ {a:1,t:'작업 전 안전미팅(TBM)에서 내가 주로 하는 말은?',o:{D:'“오늘 핵심 위험은 이것 하나, 이것만 꼭 지킵시다.”',I:'“다들 컨디션 괜찮아요? 오늘도 서로 챙겨 봅시다.”',S:'“작업 순서대로 하나씩 같이 확인해 봅시다.”',C:'“지난 아차사고 사례와 기준을 보면 이 부분이 위험합니다.”'}},
+ {a:1,t:'동료의 작업 방식이 마음에 걸릴 때 나는?',h:'즉각적인 위험은 없는 상황입니다.',o:{D:'바로 짧게 “이건 이렇게 바꿉시다”라고 말한다',I:'먼저 수고를 알아주고 분위기를 살펴 말을 꺼낸다',S:'작업이 끝난 뒤 조용히 따로 이야기한다',C:'왜 위험한지 기준이나 사례를 들어 설명한다'}},
+ {a:1,t:'안전 이야기를 할 때 나의 말투는 주로?',o:{D:'짧고 분명하게',I:'밝고 친근하게',S:'차분하고 부드럽게',C:'정확하고 구체적으로'}},
+ {a:1,t:'동료가 상황을 설명할 때 내가 주로 하는 질문은?',o:{D:'“그래서 지금 뭐가 필요해요?”',I:'“많이 당황했겠네요. 괜찮아요?”',S:'“처음부터 천천히 얘기해 줄래요?”',C:'“정확히 어떤 상황이었는지 순서대로 짚어 볼까요?”'}},
+ {a:2,t:'누군가 내 작업 방식을 고쳐 달라고 할 때, 가장 잘 받아들여지는 방식은?',o:{D:'돌려 말하지 않고 핵심만 바로 말해 줄 때',I:'내 수고를 먼저 알아주고 이야기할 때',S:'다른 사람이 없는 곳에서 차분히 말해 줄 때',C:'왜 바꿔야 하는지 이유와 기준을 알려 줄 때'}},
+ {a:2,t:'새로운 안전 절차가 생겼을 때, 나에게 가장 잘 전달되는 설명은?',o:{D:'무엇이 바뀌고 무엇을 하면 되는지 한 줄 요약',I:'함께 일하는 사람들과 이야기 나누며 듣는 설명',S:'시간을 두고 순서대로 시범을 보여 주는 설명',C:'도입 배경, 사고 사례, 데이터를 함께 보여 주는 설명'}},
+ {a:2,t:'안전 지적을 받을 때, 내 마음이 가장 닫히는 순간은?',h:'누구나 네 가지 모두 불편할 수 있습니다. 그중 가장 크게 느끼는 것을 골라 주세요.',o:{D:'요점 없이 길게 돌려 말할 때',I:'여러 사람 앞에서 딱딱하게 지적받을 때',S:'갑자기 큰 소리로 다그칠 때',C:'이유 없이 “그냥 하라”고 할 때'}},
+ {a:2,t:'안전하게 잘 했을 때, 가장 힘이 되는 인정은?',o:{D:'“역시 확실하네요.” 짧고 분명한 한마디',I:'동료들 앞에서 함께 기뻐해 주는 것',S:'따로 조용히 건네는 진심 어린 고마움',C:'무엇을 잘했는지 구체적으로 짚어 주는 것'}},
+ {a:3,t:'공정이 밀려 모두 서두를 때 나는 주로?',o:{D:'우선순위를 정해 빠르게 정리한다',I:'분위기가 가라앉지 않도록 서로 격려한다',S:'평소 순서를 지키며 침착하게 진행한다',C:'놓친 것이 없는지 기준과 체크리스트를 확인한다'}},
+ {a:3,t:'안전 문제로 의견이 엇갈릴 때 나는?',o:{D:'내 입장을 분명히 말하고 빨리 결정하자고 한다',I:'서로 감정이 상하지 않도록 중간에서 조율한다',S:'바로 결론 내기보다 시간을 두고 다시 이야기한다',C:'규정이나 자료를 찾아 무엇이 맞는지 확인한다'}},
+ {a:3,t:'추락 위험을 보고 작업을 즉시 멈추게 했습니다. 그다음 내가 이어 가는 대화는?',h:'위험한 작업은 성향과 관계없이 먼저 멈추게 합니다. 이 문항은 멈춘 “다음”의 대화를 묻습니다.',o:{D:'고칠 점과 다시 시작할 조건을 바로 말한다',I:'놀랐을 상대를 먼저 진정시키고 다독인다',S:'상황이 안정된 뒤 무슨 일이 있었는지 천천히 묻는다',C:'무엇이 위험했는지 원인과 기준을 함께 짚어 본다'}},
+ {a:3,t:'작업 내용이나 절차가 갑자기 바뀌었을 때, 내가 가장 먼저 원하는 것은?',o:{D:'결론과 내가 해야 할 일',I:'함께 일하는 사람들의 생각',S:'적응할 시간과 진행 순서',C:'왜 바뀌는지 이유와 근거'}}
+];
+const N=Q.length;
+
+/* ================= STATE ================= */
+const $=id=>document.getElementById(id);
+const safe=s=>String(s).replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
+let answers=Array(N).fill(null);
+let responseId=null, classCode='', view='';
+const store={get(k){try{return JSON.parse(sessionStorage.getItem(k))}catch(e){return null}},set(k,v){try{sessionStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+function uid(){try{return crypto.randomUUID()}catch(e){return 'r'+Date.now().toString(36)+Math.random().toString(36).slice(2,10)}}
+
+/* ================= SURVEY ================= */
+function renderQuestions(){
+ let html='',area=0;
+ Q.forEach((q,i)=>{
+  if(q.a!==area){area=q.a;const A=AREAS[area-1];html+=`<div class="area-head"><div class="num">${'①②③'[area-1]}</div><div><h3>${A.title}</h3><p>${A.desc}</p></div></div>`;}
+  const rot=ORDER.slice(i%4).concat(ORDER.slice(0,i%4));
+  html+=`<div class="qcard" id="q${i}" data-i="${i}"><div class="qhead"><span class="qno">${String(i+1).padStart(2,'0')}<small> / ${N}</small></span><p class="qtext">${safe(q.t)}</p></div>${q.h?`<p class="qhelp">${safe(q.h)}</p>`:''}<div class="choices" role="radiogroup" aria-label="${i+1}번 문항">`+
+   rot.map(k=>`<div class="choice"><input type="radio" name="q${i}" id="q${i}${k}" value="${k}"><label for="q${i}${k}"><span class="dot"></span><span>${safe(q.o[k])}</span></label></div>`).join('')+`</div></div>`;
+ });
+ $('questions').innerHTML=html;
+ $('questions').addEventListener('change',e=>{
+  const t=e.target;if(!t.name)return;const i=+t.name.slice(1);const first=answers[i]===null;answers[i]=t.value;
+  $('q'+i).classList.add('answered');refresh();
+  if(first){const nx=answers.findIndex((v,j)=>v===null&&j>i);const tgt=nx!==-1?nx:answers.findIndex(v=>v===null);setTimeout(()=>{if(tgt!==-1)focusQ(tgt);else{$('next').scrollIntoView({behavior:'smooth',block:'center'});setCurrent(-1)}},220);}
+ });
+ $('areaList').innerHTML=AREAS.map(A=>`<li data-a="${A.id}"><b>${'①②③'[A.id-1]} ${A.title.replace('나는 ','')}</b><span>0/4</span></li>`).join('');
+ setCurrent(0);
+}
+function setCurrent(i){document.querySelectorAll('.qcard').forEach(c=>c.classList.toggle('current',+c.dataset.i===i))}
+function focusQ(i){setCurrent(i);$('q'+i).scrollIntoView({behavior:'smooth',block:'start'})}
+function refresh(){
+ const done=answers.filter(v=>v!==null).length,p=Math.round(done/N*100);
+ $('pct').textContent=p+'%';$('bar').style.width=p+'%';$('pbar').setAttribute('aria-valuenow',done);$('count').textContent=`${done} / ${N}문항`;
+ $('stPct').textContent=p+'%';$('stBar').style.width=p+'%';$('stCount').textContent=`${done} / ${N}문항`;
+ AREAS.forEach(A=>{const n=Q.filter((q,i)=>q.a===A.id&&answers[i]!==null).length;const li=document.querySelector(`#areaList li[data-a="${A.id}"]`);li.querySelector('span').textContent=n===4?'완료':n+'/4';li.classList.toggle('done',n===4)});
+ const all=done===N;$('next').disabled=!all;$('next').textContent=all?'나의 사용설명서 확인 →':`응답 완료 후 결과 확인 (${done}/${N})`;
+}
+function metaOk(){let ok=true;[['role','fRole'],['career','fCareer']].forEach(([s,f])=>{const m=!$(s).value;$(f).classList.toggle('missing',m);if(m)ok=false});return ok}
+
+/* ================= SCORING ================= */
+function tally(filter){const c={D:0,I:0,S:0,C:0};answers.forEach((v,i)=>{if(v&&filter(i))c[v]++});return c}
+function tops(c){const m=Math.max(...ORDER.map(k=>c[k]));return ORDER.filter(k=>c[k]===m)}
+function pick(primary,tiebreakers){let cand=tops(primary);for(const tb of tiebreakers){if(cand.length<2)break;const m=Math.max(...cand.map(k=>tb[k]));cand=cand.filter(k=>tb[k]===m)}return cand}
+function calc(){
+ const all=tally(()=>true),a1=tally(i=>Q[i].a===1),a2=tally(i=>Q[i].a===2),a3=tally(i=>Q[i].a===3);
+ // 3개 이상 동점이면 해당 영역에서 먼저 고른 응답 순서로 최대 2개까지만 표시
+ const trim=(cand,area)=>{if(cand.length<=2)return cand;const seq=[];Q.forEach((q,i)=>{if(q.a===area&&cand.includes(answers[i])&&!seq.includes(answers[i]))seq.push(answers[i])});return seq.slice(0,2)};
+ return {all,a1,a2,a3,recv:trim(pick(a2,[all,a3]),2),speak:trim(pick(a1,[all]),1),press:trim(pick(a3,[all]),3)};
+}
+const tname=arr=>arr.map(k=>TYPES[k].name).join(' + ');
+
+/* ================= RESULT ================= */
+function dateStr(){return new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date())}
+function dots(n,color){return `<span class="dots" aria-label="${n}개">${[0,1,2,3].map(j=>`<i style="${j<n?'background:'+color:''}"></i>`).join('')}</span>`}
+function renderResult(){
+ const r=calc(),main=r.recv[0],T=TYPES[main],mix=r.recv.length>1;
+ const q5=answers[4],q7=answers[6],q8=answers[7];
+ // personalised manual: first line from own Q5 answer, then type lines
+ let hear=[Q[4].o[q5]+'<span class="from-ans">내 응답</span>'];
+ const pool=mix?[TYPES[r.recv[0]].hear[0],TYPES[r.recv[1]].hear[0],TYPES[r.recv[0]].hear[1]]:(q5===main?T.hear.slice(1):T.hear);
+ pool.forEach(h=>{if(hear.length<4)hear.push(h)});
+ let close=[Q[6].o[q7]+'<span class="from-ans">내 응답</span>'];
+ (mix?[TYPES[r.recv[0]].close[0],TYPES[r.recv[1]].close[0]]:T.close).forEach(c=>{if(close.length<3&&!c.includes(Q[6].o[q7].slice(0,6)))close.push(c)});
+ const praise=Q[7].o[q8];
+ const emblemBg=mix?`linear-gradient(135deg,${TYPES[r.recv[0]].color},${TYPES[r.recv[1]].color})`:T.color;
+ const speakT=TYPES[r.speak[0]];
+ const chips=`<div class="chips"><span>${dateStr()}</span><span>${safe($('role').value)}</span><span>경력 ${safe($('career').value)}</span>${classCode?`<span>교육 ${safe(classCode)}</span>`:''}</div>`;
+ const foot=(n,txt)=>`<div class="rfoot"><span>${txt}</span><span>0${n} / 03</span></div>`;
+
+ const p1=`<article class="report-page" id="page1">
+  <div class="kicker">My Safety Coaching Manual · 01</div>
+  <h2>나의 안전코칭<br><em>사용설명서</em></h2>${chips}
+  <div class="manual" id="manualCard">
+   <div class="manual-top"><div class="emblem" style="background:${emblemBg}">${T.icon}</div>
+    <div><div class="label">나는 이렇게 들을 때 받아들이는</div><div class="tname" style="color:${mix?'var(--ink)':T.color}">${tname(r.recv)}${mix?' <span style="font-size:15px;color:var(--muted)">(복합)</span>':''}</div><div class="tline">${mix?'두 가지 방식이 비슷하게 나타났습니다':T.line}</div></div></div>
+   <div class="mgrid">
+    <div class="mbox ok"><h4><i>✓</i>나에게는 이렇게 말해 주세요</h4><ul>${hear.map(h=>`<li>${h}</li>`).join('')}</ul></div>
+    <div class="mbox no"><h4><i>✕</i>이렇게 말하면 마음이 닫혀요</h4><ul>${close.map(h=>`<li>${h}</li>`).join('')}</ul></div>
+    <div class="mbox ok wide"><h4><i>★</i>이런 인정이 힘이 됩니다</h4><ul><li>${safe(praise)}<span class="from-ans">내 응답</span></li></ul></div>
+   </div>
+  </div>
+  <div class="stats3">
+   <div class="stat"><small>① 평소 말하기</small><b style="color:${speakT.color}">${tname(r.speak)}</b></div>
+   <div class="stat"><small>② 받아들이는 방식</small><b style="color:${mix?'var(--ink)':T.color}">${tname(r.recv)}</b></div>
+   <div class="stat"><small>③ 압박 상황</small><b style="color:${TYPES[r.press[0]].color}">${tname(r.press)}</b></div>
+  </div>
+  <div class="box read"><p>사용설명서는 <b>② 받아들이는 방식</b> 4문항을 중심으로 정리했습니다. 동료와 결과를 바꿔 보면 서로에게 어떻게 말하면 잘 들리는지 알 수 있습니다.</p></div>
+  ${foot(1,'SAFETY COMMUNICATION · 교육용 자기성찰 도구')}
+ </article>`;
+
+ const rows=[['① 평소 말하기',r.a1],['② 받아들이는 방식',r.a2],['③ 압박 상황',r.a3]];
+ const p2=`<article class="report-page" id="page2">
+  <div class="kicker">My Communication Profile · 02</div>
+  <h2>3개 영역으로 보는<br><em>나의 소통 경향</em></h2>
+  <p class="sub" style="margin:-4px 0 16px">각 영역 4문항에서 어떤 방식을 골랐는지 보여 줍니다. 점수가 아니라 <b>선택한 문항 수</b>입니다.</p>
+  <table class="matrix"><thead><tr><th></th>${ORDER.map(k=>`<th style="color:${TYPES[k].color}">${TYPES[k].name}</th>`).join('')}</tr></thead><tbody>
+  ${rows.map(([lab,c])=>{const m=Math.max(...ORDER.map(k=>c[k]));return `<tr><th>${lab}</th>${ORDER.map(k=>`<td class="${c[k]===m&&m>0?'top':''}">${dots(c[k],TYPES[k].color)}</td>`).join('')}</tr>`}).join('')}
+  </tbody></table>
+  <div class="sec-title"><h3>12문항 전체에서 고른 방식</h3><span>12문항 중 선택 수</span></div>
+  <div class="bars">${ORDER.slice().sort((a,b)=>r.all[b]-r.all[a]).map(k=>`<div class="bar"><span style="color:${TYPES[k].color}">${TYPES[k].name}</span><div class="track"><i style="width:${r.all[k]/N*100}%;background:${TYPES[k].color}"></i></div><span class="val"><b>${r.all[k]}</b> / ${N}</span></div>`).join('')}</div>
+  <div class="box read"><h4>결과를 읽는 방법</h4>
+   <p>어느 방식이 더 좋거나 나쁜 것은 없습니다. 누구나 상황에 따라 네 가지 방식을 모두 씁니다. 이 결과는 <b>지금 응답에서 상대적으로 많이 고른 방식</b>을 보여 줄 뿐, 성격을 판정하지 않습니다.</p>
+   <p>영역마다 결과가 다를 수 있습니다. 평소에는 차분하다가 바쁠 때 결론부터 말하게 되는 것처럼, 상황이 소통 방식을 바꾸기도 합니다.</p></div>
+  <div class="box warn"><h4>위험 앞에서는 성향이 없습니다</h4><p>추락·끼임·협착처럼 즉각적인 위험이 보이면 상대가 어떤 성향이든 <b>먼저 작업을 멈추게</b> 합니다. 소통 성향은 위험을 제거한 <b>그다음 대화</b>를 어떻게 이어 갈지에 대한 이야기입니다.</p></div>
+  ${foot(2,'SAFETY COMMUNICATION · 3개 영역 · 12문항')}
+ </article>`;
+
+ const p3=`<article class="report-page" id="page3">
+  <div class="kicker">Coaching Guide · 03</div>
+  <h2>다른 성향과<br><em>안전 대화하기</em></h2>
+  <p class="sub" style="margin:-4px 0 16px">나의 평소 말하기 경향은 <b style="color:${speakT.color}">${tname(r.speak)}</b>입니다. 내가 편한 방식이 상대에게도 편하지는 않습니다.</p>
+  <div class="self"><div><small>나의 강점</small><p>${speakT.speak.strength}</p></div><div><small>주의할 점</small><p>${speakT.speak.watch}</p></div><div><small>이번 주 한 가지 연습</small><p>${speakT.speak.try}</p></div></div>
+  <div class="sec-title"><h3>상대에 따라 대화 2를 바꿔 보기</h3><span>예시 대화</span></div>
+  <div class="scene"><b>상황</b> · 동료가 안전모 턱끈을 채우지 않고 지상 작업 중입니다. 즉각적인 추락·낙하 위험은 없는 상황입니다.</div>
+  <div class="tcards">${ORDER.map(k=>{const t=TYPES[k];const me=r.recv.includes(k);return `<div class="tcard${me?' mine':''}">${me?'<span class="me">나와 같은 성향</span>':''}<div class="tt"><i style="background:${t.color}"></i>상대가 ${t.name}이라면</div><div class="flow">${t.flow}</div><blockquote>${safe(t.say)}</blockquote></div>`}).join('')}</div>
+  <div class="box src"><p>근거: 대인관계 원형 모델(Leary, 1957; Wiggins, 1979), 상황적 리더십(Hersey &amp; Blanchard, 1969), 심리적 반발 이론(Brehm, 1966), 심리적 안전감(Edmondson, 1999)을 참고해 교육용으로 자체 구성했습니다. 표준화된 심리검사가 아니며 신뢰도·타당도 검증 전인 시범판입니다.</p></div>
+  ${foot(3,'SAFETY COMMUNICATION · 코칭 가이드')}
+ </article>`;
+
+ const all=`<details class="panel allans noprint"><summary>▸ 12개 문항의 내 응답 모두 보기</summary><div class="inner">${Q.map((q,i)=>`<div class="arow"><b>${String(i+1).padStart(2,'0')}</b><div>${safe(q.t)}<br><span style="color:var(--muted)">→ ${safe(q.o[answers[i]])}</span></div><span class="k" style="background:${TYPES[answers[i]].color}">${TYPES[answers[i]].name}</span></div>`).join('')}</div></details>`;
+ const bar=`<div class="panel actionbar noprint"><h3>나의 안전소통 성향 · ${tname(r.recv)}</h3><p>결과는 이 화면에서만 확인할 수 있습니다. 필요하면 저장해 두세요.</p>
+  <div class="abtns"><button class="btn" id="editAns">← 응답 수정</button><button class="btn dark" id="pdfBtn">↓ PDF 내려받기</button><button class="btn full" id="cardBtn">사용설명서 카드 이미지 저장</button><button class="btn full" id="restart">다시 시작</button></div>
+  <div class="status" id="dlStatus"></div><div class="status" id="saveStatus"></div></div>`;
+ $('result').innerHTML=`<div class="stress-report">${p1}${p2}${p3}</div>${all}${bar}`;
+ $('editAns').onclick=()=>{showSurvey();focusQ(0)};
+ $('restart').onclick=()=>{if(!confirm('응답을 모두 지우고 처음부터 다시 시작할까요?'))return;answers=Array(N).fill(null);responseId=null;document.querySelectorAll('#questions input').forEach(x=>x.checked=false);document.querySelectorAll('.qcard').forEach(c=>c.classList.remove('answered'));refresh();showSurvey();window.scrollTo({top:0});setCurrent(0)};
+ $('pdfBtn').onclick=downloadPdf;$('cardBtn').onclick=downloadCard;
+ saveAnon(r);
+}
+function showSurvey(){document.querySelector('.workspace').classList.remove('solo');$('survey').classList.remove('hide');$('result').classList.add('hide');$('side').classList.remove('hide')}
+function showResult(){document.querySelector('.workspace').classList.add('solo');$('sticky').classList.remove('show');$('survey').classList.add('hide');$('result').classList.remove('hide');$('side').classList.add('hide');renderResult();window.scrollTo({top:0,behavior:'instant'});$('main').scrollIntoView({block:'start'})}
+
+/* ================= ANONYMOUS CLASS AGGREGATE (Apps Script) ================= */
+function saveAnon(r){
+ const st=$('saveStatus');
+ if(!(window.google&&google.script&&google.script.run)){st.textContent='';return}
+ if(!responseId)responseId=uid();
+ const payload={id:responseId,cls:classCode,role:$('role').value,career:$('career').value,recv:r.recv.join(''),speak:r.speak.join(''),press:r.press.join(''),
+  cD:r.all.D,cI:r.all.I,cS:r.all.S,cC:r.all.C,ans:answers.join('')};
+ st.textContent='교육 집계(익명)에 반영하는 중…';
+ google.script.run.withSuccessHandler(()=>{st.textContent='교육 집계에 익명으로 반영되었습니다. (이름·연락처는 저장하지 않습니다)'})
+  .withFailureHandler(()=>{st.textContent='교육 집계 반영에 실패했습니다. 결과 확인에는 영향이 없습니다.'}).saveResponse(payload);
+}
+
+/* ================= DOWNLOADS ================= */
+function stamp(){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date()).replace(/\D/g,'')}
+function deliver(blob,name,status){
+ const href=URL.createObjectURL(blob),a=document.createElement('a');a.href=href;a.download=name;a.rel='noopener';document.body.appendChild(a);a.click();a.remove();
+ status.textContent='저장 요청 완료. 다운로드가 차단됐다면 ';const f=document.createElement('a');f.href=href;f.target='_blank';f.rel='noopener noreferrer';f.textContent='여기를 눌러 열기';status.appendChild(f);
+ setTimeout(()=>URL.revokeObjectURL(href),600000);
+}
+async function snap(el,fixed){
+ /* PDF는 휴대폰에서도 A4에 맞는 넓은 레이아웃(760px)으로 렌더링 */
+ const opt={scale:2,backgroundColor:'#ffffff',useCORS:true,logging:false};
+ if(fixed){opt.windowWidth=1100;opt.onclone=doc=>{const c=doc.getElementById(el.id);if(c){c.style.width='760px';c.style.maxWidth='760px';c.style.margin='0';c.style.boxShadow='none'}}}
+ return html2canvas(el,opt)}
+async function downloadPdf(){
+ const s=$('dlStatus'),b=$('pdfBtn');
+ if(!window.html2canvas||!window.jspdf){s.textContent='PDF 도구를 불러오지 못했습니다. 인쇄 화면에서 “PDF로 저장”을 선택해 주세요.';window.print();return}
+ b.disabled=true;s.textContent='결과 보고서를 PDF로 만드는 중입니다…';
+ try{
+  const pdf=new jspdf.jsPDF({unit:'mm',format:'a4',orientation:'portrait'});const W=210,H=297,m=10;
+  const pages=[...document.querySelectorAll('#result .report-page')];
+  for(let i=0;i<pages.length;i++){const c=await snap(pages[i],true);let w=W-2*m,h=c.height*w/c.width;if(h>H-2*m){h=H-2*m;w=c.width*h/c.height}
+   if(i)pdf.addPage();pdf.addImage(c.toDataURL('image/jpeg',.92),'JPEG',(W-w)/2,m,w,h)}
+  deliver(pdf.output('blob'),`나의안전소통성향_결과_${stamp()}.pdf`,s);
+ }catch(e){s.textContent='PDF 생성 오류: '+(e.message||e)}finally{b.disabled=false}
+}
+async function downloadCard(){
+ const s=$('dlStatus');if(!window.html2canvas){s.textContent='이미지 도구를 불러오지 못했습니다. 화면을 캡처해 저장해 주세요.';return}
+ s.textContent='사용설명서 카드를 이미지로 만드는 중입니다…';
+ try{const c=await snap($('manualCard'));c.toBlob(bl=>deliver(bl,`나의안전코칭사용설명서_${stamp()}.png`,s),'image/png')}catch(e){s.textContent='이미지 생성 오류: '+(e.message||e)}
+}
+
+/* ================= STATS VIEW (instructor) ================= */
+function renderStats(data){
+ const box=$('statsView');const n=data.total||0;
+ const dist=(obj,title)=>{const tot=ORDER.reduce((s,k)=>s+(obj[k]||0),0)||1;return `<div class="panel"><h3>${title}</h3><div class="bars">${ORDER.map(k=>`<div class="bar"><span style="color:${TYPES[k].color}">${TYPES[k].name}</span><div class="track"><i style="width:${(obj[k]||0)/tot*100}%;background:${TYPES[k].color}"></i></div><span class="val"><b>${obj[k]||0}</b>명</span></div>`).join('')}</div></div>`};
+ const roles=Object.entries(data.byRole||{});
+ box.innerHTML=`<header class="hero" style="padding-bottom:40px"><div class="hero-bg"></div><div class="shell"><div class="hero-head" style="padding-top:8px"><h1>교육 현장 집계 · 익명</h1><p>나의 안전소통 성향 확인하기 ${classCode?`· 교육 코드 <b>${safe(classCode)}</b>`:'· 전체'}</p></div></div></header>
+ <div class="stats-wrap"><div class="stats-head"><div><div class="kicker">Respondents</div><div class="bign">${n}<span style="font-size:18px;color:var(--muted)"> 명</span></div></div><div><button class="btn" id="reload">새로고침</button> <span class="sub" id="upd">${new Date().toLocaleTimeString('ko-KR')} 기준 · 15초마다 자동 갱신</span></div></div>
+ <div class="sgrid">${dist(data.recv||{},'② 받아들이는 방식 (사용설명서)')}${dist(data.speak||{},'① 평소 말하기')}${dist(data.press||{},'③ 압박 상황')}</div>
+ ${roles.length?`<div class="panel" style="padding:18px;margin-top:14px"><h3 style="margin:0 0 10px;font-size:15px">응답자 구분별 · 받아들이는 방식</h3><table class="matrix"><thead><tr><th></th>${ORDER.map(k=>`<th style="color:${TYPES[k].color}">${TYPES[k].name}</th>`).join('')}<th>계</th></tr></thead><tbody>${roles.map(([rl,o])=>`<tr><th>${safe(rl)}</th>${ORDER.map(k=>`<td>${o[k]||0}</td>`).join('')}<td><b>${ORDER.reduce((s,k)=>s+(o[k]||0),0)}</b></td></tr>`).join('')}</tbody></table></div>`:''}
+ <p class="sub" style="margin-top:14px">복합형(동점) 응답은 해당 성향 각각에 1명씩 반영됩니다. 개인을 식별할 수 있는 정보는 수집하지 않습니다.</p></div>`;
+ $('reload').onclick=loadStats;
+}
+function loadStats(){if(window.google&&google.script&&google.script.run){google.script.run.withSuccessHandler(renderStats).withFailureHandler(e=>{$('statsView').innerHTML='<p style="padding:30px">집계를 불러오지 못했습니다: '+safe(e.message||e)+'</p>'}).getStats(classCode)}else{renderStats({total:0})}}
+
+/* ================= INIT ================= */
+function start(){
+ const sp=$('introSplash');sp.classList.add('closed');document.body.classList.remove('intro-open');
+ try{$('introVideo').pause()}catch(e){}
+ window.scrollTo({top:0,behavior:'instant'});
+}
+function boot(params){
+ classCode=(params.class||params.cls||'').toString().slice(0,30);view=(params.view||'').toString();
+ if(classCode){$('classTag').hidden=false;$('classTag').textContent='교육 코드 '+classCode}
+ if(view==='stats'){$('introSplash').classList.add('hide');document.body.classList.remove('intro-open');$('app').classList.add('hide');$('statsView').classList.remove('hide');loadStats();setInterval(loadStats,15000)}
+}
+renderQuestions();refresh();
+$('enterSurvey').addEventListener('click',start);
+$('showIntro').addEventListener('click',()=>{const sp=$('introSplash');sp.classList.remove('closed');document.body.classList.add('intro-open');try{$('introVideo').play().catch(()=>{})}catch(e){}});
+$('next').addEventListener('click',()=>{if(!metaOk()){window.scrollTo({top:0,behavior:'smooth'});$('main').scrollIntoView({behavior:'smooth'});return}showResult()});
+['role','career'].forEach(id=>$(id).addEventListener('change',()=>$(id).parentElement.classList.remove('missing')));
+window.addEventListener('scroll',()=>{const y=$('questions').getBoundingClientRect().top;$('sticky').classList.toggle('show',y<0&&!$('survey').classList.contains('hide')&&window.innerWidth<=860)},{passive:true});
+try{if(window.google&&google.script&&google.script.url){google.script.url.getLocation(loc=>boot(loc.parameter||{}))}else{boot(Object.fromEntries(new URLSearchParams(location.search)))}}catch(e){boot({})}
+</script>
+</body></html>
